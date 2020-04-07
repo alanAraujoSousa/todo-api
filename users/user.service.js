@@ -40,5 +40,6 @@ async function create(userParam) {
 }
 
 async function getProfile(id) {
-    return await User.findById(id);
+    var user = await User.findById(id);
+    return user;
 }

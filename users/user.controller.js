@@ -29,6 +29,6 @@ function getProfile(req, res, next) {
     var userId = jwt.decode(token).sub.id;
     
     userService.getProfile(userId)
-        .then(user => res.json(user))
+        .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }

@@ -1,6 +1,7 @@
 require('rootpath')();
 const express = require('express');
 const bodyParser = require('body-parser');
+const errorHandler = require('_helpers/error-handler');
 const jwt = require('_helpers/jwt');
 const cors = require('cors');
 const logger = require('morgan');
@@ -18,6 +19,9 @@ app.use(jwt());
 
 // api routes
 app.use('/users', require('./users/user.controller'));
+
+// global error handler
+app.use(errorHandler);
 
 if (environment !== 'production') {
   app.use(logger('dev'));
