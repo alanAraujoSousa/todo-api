@@ -12,6 +12,12 @@ app.use(cors());
 
 const environment = process.env.NODE_ENV;
 
+// use JWT auth to secure the api
+app.use(jwt());
+
+// api routes
+app.use('/users', require('./users/user.controller'));
+
 if (environment !== 'production') {
   app.use(logger('dev'));
 }
