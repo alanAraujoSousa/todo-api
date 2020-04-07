@@ -28,6 +28,10 @@ schema.methods.generateToken = function() {
     return token;
 }
 
+schema.methods.isTheCorrectPassword = function(pass) {
+    return bcrypt.hashSync(pass, this.salt) === this.password;
+}
+
 schema.methods.hashPass = function() {
     var saltToEncrypt = bcrypt.genSaltSync(10);
     this.password = bcrypt.hashSync(this.password, saltToEncrypt);
