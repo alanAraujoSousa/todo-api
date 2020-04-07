@@ -1,6 +1,7 @@
 require('rootpath')();
 const express = require('express');
 const bodyParser = require('body-parser');
+const jwt = require('_helpers/jwt');
 const cors = require('cors');
 const logger = require('morgan');
 

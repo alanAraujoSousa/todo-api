@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const userService = require('./user.service');
+const jwt = require('jsonwebtoken');
+
 
 // routes
 router.post('/authenticate', authenticate);
 router.post('/register', register);
+router.get('/me', getProfile);
 
 module.exports = router;
 
@@ -15,8 +18,17 @@ function authenticate(req, res, next) {
 }
 
 function register(req, res, next) {
-    var userReceived = req.body;
-    userService.create(userReceived)
+    userService.create(req.body)
         .then(userCreated => res.status(201).json(userCreated))
+        .catch(err => next(err));
+}
+
+function getProfile(req, res, next) {
+
+    var token = req.headers.authorization.split(" ")[1];
+    var userId = jwt.decode(token).sub.id;
+    
+    userService.getProfile(userId)
+        .then(user => res.json(user))
         .catch(err => next(err));
 }

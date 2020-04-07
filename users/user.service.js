@@ -5,7 +5,8 @@ const User = db.User;
 
 module.exports = {
     authenticate,
-    create
+    create,
+    getProfile
 };
 
 async function authenticate({ email, password }) {
@@ -13,9 +14,9 @@ async function authenticate({ email, password }) {
     const user = await User.findOne({ email }).select("+password +salt");
     
     if (user && user.isTheCorrectPassword(password)) {
-        user.generateToken();
+        var token = user.generateToken();
         await user.save();
-        return user;
+        return token;
     } else {
         throw new Error("UnauthorizedCredentials");
     }
@@ -32,8 +33,12 @@ async function create(userParam) {
 
     // hash pass
     user.hashPass();
-    user.generateToken();
+    var token = user.generateToken();
 
     await user.save();
-    return user;
+    return token;
+}
+
+async function getProfile(id) {
+    return await User.findById(id);
 }

@@ -17,14 +17,16 @@ const schema = new Schema({
     lastLogin: { type: Date, default: Date.now }
 });
 
+schema.set('toObject', { getters: true, virtuals: true });
+
 schema.methods.generateToken = function() {
     const token = jwt.sign({
         exp: Math.floor(Date.now() / 1000) + (60 * 30), // 30 min expires
-        sub: this.id 
+        sub: { id: this.id, name: this.name } 
     }, config.secret, { algorithm: 'HS256'});
 
     this.lastLogin = Date.now();
-
+    
     return token;
 }
 
