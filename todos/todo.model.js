@@ -10,7 +10,7 @@ const schema = new Schema({
         required: [true, "The content can't be blank"]
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User'
     },
     createdAt: { type: Date, default: Date.now }

@@ -5,7 +5,8 @@ const User = db.User;
 
 module.exports = {
     create,
-    listByUser
+    listByUser,
+    deleteByIdAndUser
 };
 
 async function create(userParam) {
@@ -20,5 +21,11 @@ async function create(userParam) {
 }
 
 async function listByUser(userId) {
+    var todos = await Todo.find({ user: userId });
+    return todos;
+}
 
+async function deleteByIdAndUser(id, userId) {
+    var wasDeleted = await Todo.deleteOne({ id: id, user: userId });
+    return wasDeleted;
 }
