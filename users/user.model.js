@@ -12,10 +12,14 @@ const schema = new Schema({
         type: String, 
         lowercase: true, 
         unique: true, 
-        required: [true, "can't be blank"], 
+        required: [true, "Email can't be blank"], 
         match: [/\S+@\S+\.\S+/, 'is invalid'], 
-        index: true},
-    name: { type: String, required: [true, "can't be blank"]},
+        index: true
+    },
+    name: { 
+        type: String, 
+        required: [true, "Name can't be blank"]
+    },
     password: { type: String, required: true, select: false},
     salt: { type: String, required: true, select: false},
     createdAt: { type: Date, default: Date.now },
@@ -23,7 +27,7 @@ const schema = new Schema({
     lastLogin: { type: Date, default: Date.now }
 });
 
-schema.set('toObject', { getters: true, virtuals: true });
+// schema.set('toObject', { getters: true, virtuals: true });
 
 schema.methods.generateToken = function() {
     const token = jwt.sign({

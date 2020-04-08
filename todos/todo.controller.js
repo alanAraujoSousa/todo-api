@@ -11,7 +11,7 @@ module.exports = router;
 
 function create(req, res, next) {
     todoService.create(req.body)
-        .then(todoCreated => res.status(201).json(todoCreated))
+        .then(res.sendStatus(201))
         .catch(err => next(err));
 }
 

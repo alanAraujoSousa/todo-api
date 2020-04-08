@@ -19,7 +19,7 @@ app.use(jwt());
 
 // api routes
 app.use('/users', require('./users/user.controller'));
-app.use('/todo', require('./todos/todo.controller'));
+app.use('/todos', require('./todos/todo.controller'));
 
 
 // global error handler
@@ -32,8 +32,11 @@ if (environment !== 'production') {
 
 // start server
 const port = environment === 'production' ? (process.env.PORT || 80) : 4000;
-const server = app.listen(port, function () {
-    console.log('The todo-api is listening on port ' + port);
-});
+
+if (process.env.NODE_ENV !== 'test') {
+  const server = app.listen(port, function () {
+      console.log('The todo-api is listening on port ' + port);
+  });
+}
 
 module.exports = app

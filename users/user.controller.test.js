@@ -14,7 +14,6 @@ beforeAll(async () => {
 // afterEach
 afterAll(async () => {
     await mongoose.connection.collections['users'].deleteMany();
-    await mongoose.connection.close();
 })
 
 describe('Testando a criação de usuários', () => {
@@ -62,7 +61,7 @@ describe('Testando a criação de usuários', () => {
         const responseBAD = await request.post('/users/register').send(userReceived);
         expect(responseBAD.status).toBe(400);
 
-        done()
+        done();
     });
 })
 
