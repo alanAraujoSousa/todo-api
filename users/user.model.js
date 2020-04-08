@@ -8,8 +8,14 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
     _id: { type: String, default: uuid.v1},
-    email: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true},
-    name: { type: String, required: true },
+    email: {
+        type: String, 
+        lowercase: true, 
+        unique: true, 
+        required: [true, "can't be blank"], 
+        match: [/\S+@\S+\.\S+/, 'is invalid'], 
+        index: true},
+    name: { type: String, required: [true, "can't be blank"]},
     password: { type: String, required: true, select: false},
     salt: { type: String, required: true, select: false},
     createdAt: { type: Date, default: Date.now },
