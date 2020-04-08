@@ -11,8 +11,12 @@ router.delete('/:id', deleteByIdAndUser);
 module.exports = router;
 
 function create(req, res, next) {
-    todoService.create(req.body)
-        .then(res.sendStatus(201))
+
+    var token = req.headers.authorization.split(" ")[1];
+    var userId = jwt.decode(token).sub.id;
+
+    todoService.create(req.body, userId)
+        .then(todoCreated => res.status(201).json(todoCreated))
         .catch(err => next(err));
 }
 
@@ -32,6 +36,6 @@ function deleteByIdAndUser(req, res, next) {
     var userId = jwt.decode(token).sub.id;
 
     todoService.deleteByIdAndUser(token, userId)
-        .then(wasDeleted => wasDeleted.n > 0 ? res.sendStatus(200) : res.sendStatus(404))
+        .then(wasDeleted => wasDeleted.ok > 0 ? res.sendStatus(200) : res.sendStatus(404))
         .catch(err => next(err));
 }

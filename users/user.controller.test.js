@@ -54,7 +54,7 @@ describe('Testando a criação de usuários', () => {
     test('Criação de usuários sem nome', async done => {
 
         var userReceived = {
-            email: "test23@test.com",
+            email: "test234@test.com",
             password: "qwerty",
         };
 

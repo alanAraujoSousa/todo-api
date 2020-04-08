@@ -24,7 +24,7 @@ describe('Testando a criação de TODOs', () => {
     test('Criação de TODO com informações válidas', async done => {
 
         var userReceived = {
-            email: "test22@test.com",
+            email: "test522@test.com",
             password: "qwerty",
             name: "test"
         };
@@ -35,14 +35,38 @@ describe('Testando a criação de TODOs', () => {
         user.save();
 
         var todoReceived = {
-             content: "textToDo",
-             user: user.id
+            content: "textToDo"
+        };
+
+        const response = await request.post('/todos/').send(todoReceived)
+             .set("Authorization", "Bearer " + token);
+        
+        expect(response.status).toBe(201);
+
+        done();
+    });
+
+    test('Criação de TODO sem conteúdo', async done => {
+
+        var userReceived = {
+            email: "test42@test.com",
+            password: "qwerty",
+            name: "test"
+        };
+
+        const user = new User(userReceived);
+        user.hashPass();
+        var token = user.generateToken();
+        user.save();
+
+        var todoReceived = {
+
         };
 
         const response = await request.post('/todos/').send(todoReceived)
              .set("Authorization", "Bearer " + token);
       
-        expect(response.status).toBe(201);
+        expect(response.status).toBe(400);
 
         done();
     });
@@ -50,7 +74,7 @@ describe('Testando a criação de TODOs', () => {
 
 describe('Testando a obtenção da listagem de TODOs', () => {
 
-    test('Listando todos por um usuário existente', async done => {
+    test('Listando TODOs por um usuário existente', async done => {
 
         var userReceived = {
             email: "test23@test.com",
@@ -64,13 +88,11 @@ describe('Testando a obtenção da listagem de TODOs', () => {
         user.save();
 
         var todoReceived = {
-             content: "textToDo1",
-             user: user.id
+             content: "textToDo1"
         }; 
 
         var todoReceived2 = {
-            content: "textToDo2",
-            user: user.id
+            content: "textToDo2"
         };
 
         const todo = new Todo(todoReceived);
@@ -82,6 +104,38 @@ describe('Testando a obtenção da listagem de TODOs', () => {
         await todo2.save();
 
         const response = await request.get('/todos/')
+             .set("Authorization", "Bearer " + token);
+        console.log(response.body);
+        expect(response.status).toBe(200);
+
+        done();
+    });
+})
+
+describe('Testando a deleção de TODOs', () => {
+
+    test('Deletando um TODO existente', async done => {
+
+        var userReceived = {
+            email: "test24@test.com",
+            password: "qwerty",
+            name: "test"
+        };
+
+        const user = new User(userReceived);
+        user.hashPass();
+        var token = user.generateToken();
+        user.save();
+
+        var todoReceived = {
+             content: "textToDo1"    
+        }; 
+
+        const todo = new Todo(todoReceived);
+        todo.user = user;
+        await todo.save();
+
+        const response = await request.delete('/todos/' + todo.id)
              .set("Authorization", "Bearer " + token);
       
         expect(response.status).toBe(200);

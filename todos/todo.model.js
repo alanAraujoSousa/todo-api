@@ -11,7 +11,8 @@ const schema = new Schema({
     },
     user: {
         type: String,
-        ref: 'User'
+        ref: 'User',
+        required: [true, "The user must be provided"]
     },
     createdAt: { type: Date, default: Date.now }
 });

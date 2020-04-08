@@ -9,15 +9,15 @@ module.exports = {
     deleteByIdAndUser
 };
 
-async function create(userParam) {
+async function create(userParam, userId) {
     
-    var userId = userParam.user;
     var user = await User.findById(userId);
     
     const todo = new Todo(userParam);
     todo.user = user;
 
     await todo.save();
+    return todo;
 }
 
 async function listByUser(userId) {
