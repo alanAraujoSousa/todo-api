@@ -16,7 +16,9 @@ async function authenticate({ email, password }) {
     if (user && user.isTheCorrectPassword(password)) {
         var token = user.generateToken();
         await user.save();
-        return token;
+        
+        var userO = user.toJSON();
+        return {...userO, token: token};
     } else {
         throw new Error("UnauthorizedCredentials");
     }
@@ -33,10 +35,9 @@ async function create(userParam) {
 
     // hash pass
     user.hashPass();
-    var token = user.generateToken();
 
     await user.save();
-    return token;
+    return user;
 }
 
 async function getProfile(id) {

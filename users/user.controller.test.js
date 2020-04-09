@@ -27,7 +27,6 @@ describe('Testando a criação de usuários', () => {
         };
 
         const response = await request.post('/users/register').send(userReceived);
-      
         expect(response.status).toBe(201);
 
         done();

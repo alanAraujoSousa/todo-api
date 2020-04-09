@@ -105,7 +105,6 @@ describe('Testando a obtenção da listagem de TODOs', () => {
 
         const response = await request.get('/todos/')
              .set("Authorization", "Bearer " + token);
-        console.log(response.body);
         expect(response.status).toBe(200);
 
         done();
