@@ -26,6 +26,6 @@ async function listByUser(userId) {
 }
 
 async function deleteByIdAndUser(id, userId) {
-    var wasDeleted = await Todo.deleteOne({ id: id, user: userId });
+    var wasDeleted = await Todo.deleteOne({ _id: id, user: userId });
     return wasDeleted;
 }

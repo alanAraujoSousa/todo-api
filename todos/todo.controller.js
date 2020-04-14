@@ -26,7 +26,7 @@ function listByUser(req, res, next) {
     var userId = jwt.decode(token).sub.id;
     
     todoService.listByUser(userId)
-        .then(todos => todos && todos.length > 0 ? res.json(todos) : res.sendStatus(404))
+        .then(todos => todos && todos.length > 0 ? res.json(todos) : res.json([]))
         .catch(err => next(err));
 }
 
@@ -34,8 +34,8 @@ function deleteByIdAndUser(req, res, next) {
    
     var token = req.headers.authorization.split(" ")[1];
     var userId = jwt.decode(token).sub.id;
-
-    todoService.deleteByIdAndUser(token, userId)
-        .then(wasDeleted => wasDeleted.ok > 0 ? res.sendStatus(200) : res.sendStatus(404))
+    
+    todoService.deleteByIdAndUser(req.params.id, userId)
+        .then(res.sendStatus(200))
         .catch(err => next(err));
 }
